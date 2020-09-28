@@ -32,12 +32,11 @@ class App extends React.Component {
       completed: false,
     };
     this.setState({
-      toDo: [...TouchList.state.toDo, newTask],
+      toDo: [...this.state.toDo, newTask],
     });
   };
 
   toggleTask = (itemId) => {
-    console.log(itemId);
     this.setState({
       toDo: this.state.toDo.map((item) => {
         if (itemId === item.id) {
@@ -63,9 +62,13 @@ class App extends React.Component {
       <div className="App">
         <div className="header">
           <h1>Todo App</h1>
-          <TodoForm />
+          <TodoForm addTask={this.addTask} />
         </div>
-        <TodoList />
+        <TodoList
+          toDo={this.state.toDo}
+          toggleTask={this.toggleTask}
+          clearTasks={this.clearTasks}
+        />
       </div>
     );
   }

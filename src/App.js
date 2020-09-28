@@ -2,6 +2,7 @@ import React from "react";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
 
+//making basic to do list
 const toDo = [
   {
     task: "Learn React",
@@ -16,14 +17,55 @@ const toDo = [
 ];
 
 class App extends React.Component {
-  // you will need a place to store your state in this component.
-  // design `App` to be the parent component of your application.
-  // this component is going to take care of state, and any change handlers you need to work with your state
+  constructor() {
+    super();
+    this.state = {
+      toDo,
+    };
+  }
+
+  addTask = (e, item) => {
+    e.preventDefault();
+    const newTask = {
+      task: item,
+      id: Date.now(),
+      completed: false,
+    };
+    this.setState({
+      toDo: [...TouchList.state.toDo, newTask],
+    });
+  };
+
+  toggleTask = (itemId) => {
+    console.log(itemId);
+    this.setState({
+      toDo: this.state.toDo.map((item) => {
+        if (itemId === item.id) {
+          return {
+            ...item,
+            completed: !item.completed,
+          };
+        }
+        return item;
+      }),
+    });
+  };
+
+  clearTasks = (e) => {
+    e.preventDefault();
+    this.setState({
+      toDo: this.state.toDo.filter((item) => !item.completed),
+    });
+  };
 
   render() {
     return (
-      <div>
-        <h2>Welcome to your Todo App!</h2>
+      <div className="App">
+        <div className="header">
+          <h1>Todo App</h1>
+          <TodoForm />
+        </div>
+        <TodoList />
       </div>
     );
   }
